@@ -1,0 +1,31 @@
+From 5633f08e35552295b2f9414ff32ca4e8e081b2f2 Mon Sep 17 00:00:00 2001
+Message-Id: <5633f08e35552295b2f9414ff32ca4e8e081b2f2.1638196305.git.dcaratti@redhat.com>
+From: Paolo Abeni <paolo.abeni@gmail.com>
+Date: Tue, 12 Oct 2021 19:24:33 +0200
+Subject: [PATCH] mptcpize: force MPTCP usage for IPPROTO_IP, too (#159)
+
+The current ignores calls alike:
+
+	socket(AF_INET, SOCK_STREAM, IPPROTO_IP)
+
+We should hijack them, too.
+---
+ src/mptcpwrap.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/mptcpwrap.c b/src/mptcpwrap.c
+index 37b0545..1aaf00f 100644
+--- a/src/mptcpwrap.c
++++ b/src/mptcpwrap.c
+@@ -27,7 +27,7 @@ int __attribute__((visibility("default"))) socket(int family, int type, int prot
+ 		goto do_socket;
+ 
+ 	// socket(AF_INET, SOCK_STREM, 0) maps to TCP, too
+-	if (protocol == 0 && protocol != IPPROTO_TCP)
++	if (protocol != 0 && protocol != IPPROTO_TCP)
+ 		goto do_socket;
+ 
+ 	protocol = IPPROTO_TCP + 256;
+-- 
+2.31.1
+
