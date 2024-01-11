@@ -1,0 +1,24 @@
+diff --git a/etc/mptcpd.conf.in b/etc/mptcpd.conf.in
+index 615c63b..c6b31ac 100644
+--- a/etc/mptcpd.conf.in
++++ b/etc/mptcpd.conf.in
+@@ -19,7 +19,6 @@ log=@mptcpd_logger@
+ # ----------------
+ # Plugin directory
+ # ----------------
+-plugin-dir=@pkglibdir@
+ 
+ # -------------------
+ # Path manager plugin
+diff --git a/src/mptcp.service.in b/src/mptcp.service.in
+index 89dfe04..738f59f 100644
+--- a/src/mptcp.service.in
++++ b/src/mptcp.service.in
+@@ -9,7 +9,6 @@ Documentation=man:mptcpd(8)
+ [Service]
+ Type=simple
+ DynamicUser=yes
+-Environment=LD_LIBRARY_PATH=@libdir@
+ ExecStart=@libexecdir@/mptcpd --log=journal
+ CapabilityBoundingSet=CAP_NET_ADMIN
+ AmbientCapabilities=CAP_NET_ADMIN
